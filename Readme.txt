@@ -1,0 +1,1 @@
+zf enable config.manifest ZendR_Tool_Project_Provider_Manifest

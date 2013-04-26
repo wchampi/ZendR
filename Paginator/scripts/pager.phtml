@@ -1,0 +1,38 @@
+<ul class="pager">
+	<li><span class="txtOthers"><b><?php echo $this->pageCount ?> <?php echo Zend_Registry::get('Zend_Translate')->_('Page') ?>(s)
+		<?php echo $this->totalItemCount ?> <?php echo Zend_Registry::get('Zend_Translate')->_('Register') ?>(s)</b></span></li>
+
+	<!-- Primera Pagina -->
+	<?php if (isset($this->previous)): ?>
+		<li><a href="<?php echo $this->url(array(Zend_Registry::get('Zend_Translate')->_('page') => $this->first), 'default') ?>"
+			   class="aPopup" onclick="" >|&lsaquo;</a></li>
+	<?php endif ?>
+
+	<!-- Previous page link -->
+	<?php if (isset($this->previous)): ?>
+		<li><a href="<?php echo $this->url(array(Zend_Registry::get('Zend_Translate')->_('page') => $this->previous), 'default') ?>"
+			   class="aPopup" onclick="">&lsaquo;</a></li>
+	<?php endif ?>
+
+	<!-- Numbered page links -->
+	<?php foreach ($this->pagesInRange as $page): ?>
+		<?php if ($page != $this->current): ?>
+			<li><a class="aPopup" onclick="" href="<?php echo $this->url(array(Zend_Registry::get('Zend_Translate')->_('page') => $page), 'default') ?>" >
+				<?php echo $page ?></a></li>
+		<?php else: ?>
+			<li><a class="pageActive"><?php echo $page ?></a></li>
+		<?php endif ?>
+	<?php endforeach ?>
+
+	<!-- Next page link -->
+	<?php if (isset($this->next)): ?>
+		<li><a href="<?php echo $this->url(array(Zend_Registry::get('Zend_Translate')->_('page') => $this->next), 'default') ?>"
+			   class="aPopup" onclick="">&rsaquo;</a></li>
+	<?php endif ?>
+
+	<!-- Last page link -->
+	<?php if (isset($this->next)): ?>
+		<li><a href="<?php echo $this->url(array(Zend_Registry::get('Zend_Translate')->_('page') => $this->last), 'default') ?>"
+               class="aPopup" onclick="">&rsaquo;|</a></li>
+	<?php endif ?>
+</ul>

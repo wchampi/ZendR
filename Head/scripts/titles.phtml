@@ -1,0 +1,19 @@
+<thead>
+	<tr>
+		<?php foreach ($this->titles as $title => $campo): ?>
+            <th <?php if ($title == $this->order): ?>class="tableGralTh"<?php endif ?>>
+                <?php if ($title == $this->order): ?>
+                <img src="<?php echo $this->baseUrl('zendr/css/graphics/' . strtolower($this->by) . '.gif') ?>" width="10" height="10" id='imgOrder' alt="<?php echo strtolower($this->by) ?>" />
+                <?php endif ?>
+
+                <?php if ($campo == null): ?>
+                    <?php echo $title ?>
+                <?php else: ?>
+                    <a class="aPopup" href="<?php echo $this->url(array('order' => $title, 'by' => ($this->by == 'asc' ? 'desc' : 'asc'))) ?>">
+                        <?php echo $title ?>
+                    </a>
+                <?php endif ?>
+            </th>
+		<?php endforeach ?>
+	</tr>
+</thead>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraph.org/schema/">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <meta property="og:title" content="<?php echo $this->titulo ?>" />
+        <meta property="og:description" content="<?php echo $this->descripcion ?>"/>
+
+        <?php if ($this->imagen): ?>
+            <meta property="og:image" content="<?php echo $this->imagen ?>" />
+        <?php endif ?>
+        <title><?php echo $this->titulo ?></title>
+    </head>
+    <body>
+        <div>
+            <h1><?php echo $this->titulo ?></h1>
+            <?php if ($this->imagen): ?>
+                <img src="<?php echo $this->imagen ?>" alt="<?php echo $this->titulo ?>" />
+            <?php endif ?>
+            <?php echo $this->descripcion ?>
+        </div>
+    </body>
+</html>
