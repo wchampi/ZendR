@@ -16,7 +16,7 @@ class ZendR_GeoLocation
             return '';
         }
         
-        $gi = geoip_open(dirname(__FILE__) . '/data/GeoLocation/GeoLiteCity.dat', GEOIP_STANDARD);
+        $gi = geoip_open(dirname(__FILE__) . '/GeoLocation/GeoLiteCity.dat', GEOIP_STANDARD);
         $record = geoip_record_by_addr($gi, $ip);
         geoip_close($gi);
         
