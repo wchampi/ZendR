@@ -44,7 +44,11 @@ class ZendR_Data_Csv
     public static function export($query, $file, $separator, Doctrine_Connection $conn, $titulos = '')
     {
         file_put_contents($file, @iconv('UTF-8', 'Windows-1252//TRANSLIT', ZendR_String::parseString($titulos)->toUTF8()->__toString()));
-        $rows = $conn->execute($query)->fetchAll(PDO::FETCH_ASSOC);
+        
+        $stm = $conn->prepare($query);
+        $stm->execute();
+        
+        $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
             self::filePutCsv($file, $row);
         }
@@ -56,7 +60,7 @@ class ZendR_Data_Csv
         foreach ($row as $val) {
             $columns[] = self::prepareString($val, $codification);
         }
-        $rowString = "\n" . '"' . implode('","', $columns) . '"';
+        $rowString = '"' . implode('","', $columns) . '"' . "\n";
         file_put_contents($file, $rowString, FILE_APPEND);
     }
 

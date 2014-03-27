@@ -56,6 +56,12 @@ class ZendR_Head
             if ($this->_defaultOrder === null) {
                 reset($this->_titles);
                 $newOrder = key($this->_titles);
+                if (!is_array($newOrder)) {
+                    $newOrder = array(
+                        'col' => $newOrder
+                    );
+                }
+                $newOrder = $newOrder['col'];
             } else {
                 $newOrder = $this->_defaultOrder;
             }
@@ -100,7 +106,7 @@ class ZendR_Head
             $titles[$title] = array();
             $title = trim($title);
             if (substr($title, 0, 1) == '_') {
-                $titles[$title]['name'] = Yk_String::parseString($name)
+                $titles[$title]['name'] = ZendR_String::parseString($name)
                                             ->subStr(1);
                 $titles[$title]['byCurrent'] = '';
             } else {
@@ -114,7 +120,7 @@ class ZendR_Head
                 $titles[$title]['byCurrent']   = $aditional;
                 $titles[$title]['order']      = $title;
                 $titles[$title]['by']         = $by;
-                $titles[$title]['name']     = Yk_String::parseString($name);
+                $titles[$title]['name']     = ZendR_String::parseString($name);
             }
         }
 
@@ -128,18 +134,37 @@ class ZendR_Head
         if ($this->_order == $this->_defaultOrder) {
             return $this->_order . ' ' . $this->_by;
         }
-        return $this->_titles[$this->_order] . ' ' . $this->_by;
+        
+        if (is_array($this->_titles[$this->_order])) {
+            $col = $this->_titles[$this->_order]['col'];
+        } else {
+            $col = $this->_titles[$this->_order];
+        }        
+        
+        return  $col . ' ' . $this->_by;
     }
 
+    public function formatTitleDb()
+    {
+        return implode(',', ZendR_Head::parseTitlesForDB($this->_titles));
+    }
+    
     public static function parseTitlesForDB($titles, $aditional = array())
     {
         $newTitles = array();
         foreach ( $titles as $strUI => $strDB) {
-            $key = Yk_String::parseString($strUI)
+            $key = ZendR_String::parseString($strUI)
                 ->toStringSearch()
                 ->replace(array(' ', '.', '(', ')'), array('_', '_', '_', '_'))
                 ->__toString();
-            $newTitles[$key] = $strDB;
+            
+            if (!is_array($strDB)) {
+                $strDB = array(
+                    'col' => $strDB
+                );
+            }
+            
+            $newTitles[$key] = $strDB['col'];
         }
 
 
@@ -164,7 +189,7 @@ class ZendR_Head
     {
         $newTitles = array();
         foreach ( $titles as $strUI => $strDB) {
-            $key = Yk_String::parseString($strUI)
+            $key = ZendR_String::parseString($strUI)
                 ->toStringSearch()
                 ->replace(array(' ', '.', '(', ')'), array('_', '_', '_', '_'))
                 ->__toString();
@@ -173,14 +198,16 @@ class ZendR_Head
         return $newTitles;
     }
 
-    public function render()
+    public function render($basePath = '')
     {
-        $resourceLayout = Zend_Controller_Front::getInstance()
-                ->getParam('bootstrap')
-                ->getResource('layout');
-        $view = $resourceLayout->getView();
+        $view = new Zend_View();
         
-        $view->addBasePath(dirname(__FILE__) . '/Head');
+        if (file_exists($basePath)) {
+            $view->addBasePath($basePath);
+        } else {
+            $view->addBasePath(dirname(__FILE__) . '/Head');
+        }
+        
         $view->titles   = $this->_titles;
         $view->order    = $this->_order;
         $view->by       = $this->_by;

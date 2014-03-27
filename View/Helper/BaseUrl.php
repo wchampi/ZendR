@@ -28,7 +28,15 @@ class ZendR_View_Helper_BaseUrl extends Zend_View_Helper_BaseUrl
                 }
             }
         }
-
+        
+        if (defined('MODULE_ENV')) {
+            if (substr($file, 0, strlen(MODULE_ENV) + 2) == '/' . MODULE_ENV . '/') {
+                $file = str_replace('/' . MODULE_ENV . '/', '/', $file);
+            } elseif ($file == '/' . MODULE_ENV) {
+                $file = '/';
+            }
+        }
+        
         return $baseUrl . $file;
     }
 

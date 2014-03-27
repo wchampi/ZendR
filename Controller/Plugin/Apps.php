@@ -41,7 +41,19 @@ class ZendR_Controller_Plugin_Apps extends Zend_Controller_plugin_Abstract
             $this->_apps = Zend_Controller_Front::getInstance()
                 ->getParam('bootstrap')
                 ->getResource('ZendR_Application_Resource_Apps');
-        }   
+        } 
+
+        if (
+            ($this->getRequest()->getModuleName() == 'default' && $this->getRequest()->getControllerName() == 'error')
+            || ($this->getRequest()->getModuleName() == 'default' && $this->getRequest()->getControllerName() == 'index' && $this->getRequest()->getActionName() == 'obtener-provincias-por')
+            || ($this->getRequest()->getModuleName() == 'default' && $this->getRequest()->getControllerName() == 'index' && $this->getRequest()->getActionName() == 'obtener-distritos-por')
+            || ($this->getRequest()->getModuleName() == 'default' && $this->getRequest()->getControllerName() == 'index' && $this->getRequest()->getActionName() == 'obtener-distritos-por')
+            || ($this->getRequest()->getModuleName() == 'default' && $this->getRequest()->getControllerName() == 'constructor' && $this->getRequest()->getActionName() == 'gigantes')
+            ) {
+            
+        } elseif (defined('MODULE_ENV')) {
+            $this->getRequest()->setModuleName(MODULE_ENV);
+        }
 
         if ($this->_apps !== null) {
             if ($this->_apps->getRedirectUrl()) {

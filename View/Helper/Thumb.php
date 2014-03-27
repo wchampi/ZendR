@@ -12,26 +12,32 @@ class ZendR_View_Helper_Thumb extends Zend_View_Helper_Abstract
     public function thumb($src, $width, $height = null, $resize = false, $imageNotAvailable = null, $baseUrl = null, $content = false, $pathDirThumb = null)
     {
         try {
-            $tipos = explode(".", $src);
-            $extension = strtolower($tipos[count($tipos)-1]);
-            if (!in_array($extension, array('jpg', 'gif', 'png'))) {
-                throw new Exception('type not support');
-            }
-            
-            if (strpos($src, 'http') !== false) {
-                $imageTmp = sys_get_temp_dir() . '/' . md5($src) . '.' . $extension;
-                file_put_contents($imageTmp, file_get_contents($src));
-                $src = $imageTmp;
-            }    
-            
-            if (!is_file($src) && is_file($imageNotAvailable)) {
-                $src = $imageNotAvailable;
-            }
-
+            $extension = 'jpg';
             $filesize = 0;
-            if (is_file($src)) {
-                $filesize = filesize($src);
-            }
+            if (strpos($src, 'http') !== false) {
+                if (strpos($src, '.png') !== false) {
+                    $extension = 'png';
+                } elseif (strpos($src, '.gif') !== false) {
+                    $extension = 'gif';
+                }
+                $file = md5(':/' . $resize . '/' . $width . '/' . $height . '/' . $src) . '.' . $extension;
+            } else {
+                $tipos = explode(".", $src);
+                $extension = strtolower($tipos[count($tipos)-1]);
+                if (!in_array($extension, array('jpg', 'gif', 'png'))) {
+                    throw new Exception('type not support');
+                }
+                
+                if (!is_file($src) && is_file($imageNotAvailable)) {
+                    $src = $imageNotAvailable;
+                }
+                
+                if (is_file($src)) {
+                    $filesize = filesize($src);
+                }
+                
+                $file = md5(':/' . $resize . '/' . $width . '/' . $height . '/' . $filesize . '/' . $src) . '.' . strtolower($extension);
+            }    
             
             if ($pathDirThumb == '') {
                 $pathDirThumb = rtrim(UPLOAD_PATH, '/') . '/_thumb/';
@@ -40,14 +46,22 @@ class ZendR_View_Helper_Thumb extends Zend_View_Helper_Abstract
                 }
             } else {
                 $pathDirThumb .= '/';
-            }  
+            }
             
-            $file = md5(':/' . $resize . '/' . $width . '/' . $height . '/' . $filesize . '/' . $src) . '.' . strtolower($extension);
-
             $fileThumb = $pathDirThumb . $file;
             if (!file_exists($fileThumb)) {
-                $thumb = PhpThumbFactory::create($src);
+                if (strpos($src, 'http') !== false) {
+                    $imageTmp = sys_get_temp_dir() . '/' . md5($src) . '.jpg';
+                    $contentUrl = file_get_contents(str_replace(' ', '%20', $src));
+                    if ($contentUrl == '') {
+                        header('Location: ' . $src);exit;
+                    } else {
+                        file_put_contents($imageTmp, $contentUrl);
+                        $src = $imageTmp;
+                    }
+                }
                 
+                $thumb = PhpThumbFactory::create($src);
                 if ($resize) {
                     if ($height == null) {
                         $height = $width;
@@ -100,7 +114,7 @@ class ZendR_View_Helper_Thumb extends Zend_View_Helper_Abstract
             }
             
         } catch (Exception $e) {
-             
+             echo $e->getMessage();
         }
 
         return $src;
