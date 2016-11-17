@@ -64,7 +64,7 @@ class ZendR_String
                 if ($byte > 31) {
                     $str .= $this->_string[$i];
                 }
-                
+
 				if ($c > 0) {
 				   if (($byte>>6) != 0x2) {
 						return ISO_8859_1;
@@ -117,7 +117,7 @@ class ZendR_String
         } else {
             $string = in_array($this->encode(), array(ISO_8859_1, ASCII)) ? @iconv("ISO-8859-1", "UTF-8//TRANSLIT", $this->_string) : $this->_string;
         }
-		
+
         return new ZendR_String($string . "");
 	}
 
@@ -296,11 +296,11 @@ class ZendR_String
     public function removeAccent()
     {
         $a = array('À', '�?', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', '�?', 'Î', '�?', '�?', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', '�?', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', '�?', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', '�?', 'Ď', '�?', '�?', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', '�?', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', '�?', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', '�?', 'Ŏ', '�?', '�?', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', '�?', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', '�?', 'ǎ', '�?', '�?', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
-        $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o'); 
-        
+        $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
+
         return $this->toUTF8()->replace($a, $b);
     }
-    
+
     public function prepareStringSearch()
     {
         return $this->removeAccent()->toLower()->replace(' ', '');
@@ -311,22 +311,22 @@ class ZendR_String
         $description = ZendR_String::parseString($description)->toLower()->toUcWords()->__toString();
         return self::cutDescription($description, $numberChars);
     }
-    
+
     public static function cutDescription($description, $numberChars = null)
     {
         if ((int)$numberChars > 0)  {
             if (substr($description, $numberChars) != '') {
                 $description = ZendR_String::parseString($description)->subStr(0, (int)$numberChars - 3) . '...';
             }
-        }    
+        }
         return $description;
     }
-    
+
     public static function strip($string)
     {
         return preg_replace('!\s+!u', ' ', $string);
     }
-    
+
     public static function encrypt($sValue, $sSecretKey, $cbc = false)
     {
         if ($cbc) {
@@ -334,14 +334,14 @@ class ZendR_String
             $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 
             $data = str_repeat(' ', $iv_size) . $sValue;
-            $secret = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $sSecretKey, $data, MCRYPT_MODE_CBC, $iv);
+            $secret = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, self::makeSecretKey($sSecretKey), $data, MCRYPT_MODE_CBC, $iv);
 
             return base64_encode($secret);
         } else {
             return rtrim(
                base64_encode(
                    mcrypt_encrypt(
-                       MCRYPT_RIJNDAEL_256, $sSecretKey, $sValue, MCRYPT_MODE_ECB, mcrypt_create_iv(
+                       MCRYPT_RIJNDAEL_256, self::makeSecretKey($sSecretKey), $sValue, MCRYPT_MODE_ECB, mcrypt_create_iv(
                            mcrypt_get_iv_size(
                                MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
                            ), MCRYPT_RAND)
@@ -351,7 +351,7 @@ class ZendR_String
         }
     }
 
-    public static function decrypt($sValue, $sSecretKey, $cbc = false) 
+    public static function decrypt($sValue, $sSecretKey, $cbc = false)
     {
         if ($cbc) {
             $data = base64_decode($sValue);
@@ -359,13 +359,13 @@ class ZendR_String
             $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
             $iv = substr($data, 0, $iv_size);
             $encData = substr($data, $iv_size);
-            $decData = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $sSecretKey, $encData, MCRYPT_MODE_CBC, $iv);
+            $decData = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, self::makeSecretKey($sSecretKey), $encData, MCRYPT_MODE_CBC, $iv);
 
             return $decData;
         } else {
             return rtrim(
                 mcrypt_decrypt(
-                    MCRYPT_RIJNDAEL_256, $sSecretKey, base64_decode($sValue), MCRYPT_MODE_ECB, mcrypt_create_iv(
+                    MCRYPT_RIJNDAEL_256, self::makeSecretKey($sSecretKey), base64_decode($sValue), MCRYPT_MODE_ECB, mcrypt_create_iv(
                         mcrypt_get_iv_size(
                             MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
                         ), MCRYPT_RAND
@@ -373,6 +373,18 @@ class ZendR_String
                 ), "\0"
             );
         }
+    }
+
+	private static function makeSecretKey($value)
+    {
+        if (strlen($value) < 16) {
+            $value = str_pad($value, 16, "\0");
+        } elseif (strlen($value) > 16 && strlen($value) < 24) {
+            $value = str_pad($value, 24, "\0");
+        } elseif (strlen($value) > 24 && strlen($value) < 32) {
+            $value = str_pad($value, 32, "\0");
+        }
+        return $value;
     }
 
 }
