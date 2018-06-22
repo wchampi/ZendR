@@ -14,7 +14,7 @@ class ZendR_String
 
     public function __construct($string = '')
     {
-        $this->_string = $string;
+        $this->_string = (string)$string;
     }
 
     /**
